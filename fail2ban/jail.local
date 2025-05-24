@@ -1,0 +1,72 @@
+# in each jail afterwards.
+
+[DEFAULT]
+
+# Göz ardı edilecek IP’ler (senin yerel IP’lerin ve loopback)
+ignoreip = 127.0.0.1/8 ::1
+
+# Ban süresi (saniye) - 3 dakika
+bantime = 180
+
+# Hatalı deneme takibi yapılacak zaman aralığı - 10 dakika
+findtime = 600
+
+# Maksimum deneme hakkı - 3
+maxretry = 3
+maxmatches = %(maxretry)s
+
+# Log sistemini belirtiyoruz - Debian için systemd
+backend = systemd
+
+# DNS kontrol davranışı
+usedns = warn
+
+# Log encoding
+logencoding = auto
+# Log encoding
+logencoding = auto
+
+# E-Posta gönderilecek kişi
+destemail = tatliboncukodev@gmail.com
+
+# Gönderen e-posta (makine adı kullanılabilir)
+sender = aysegul@aysegul-VirtualBox
+
+# E-posta gönderim şekli - msmtp-sendmail önerilir
+mta = sendmail
+
+# Protokol
+protocol = tcp
+
+# iptables zinciri
+chain = INPUT
+
+# Tüm portlar için uygulanabilir
+port = 0:65535
+
+# Fail2Ban kendini tanıtsın
+fail2ban_agent = Fail2Ban/%(fail2ban_version)s
+
+# Ban işlemi için iptables kullan
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+#
+# SSH servers
+#
+
+[sshd]
+
+# To use more aggressive sshd modes set filter parameter "mode" in jail.local:
+# normal (default), ddos, extra or aggressive (combines all).
+# See "tests/files/logs/sshd" or "filter.d/sshd.conf" for usage example and details.
+#mode = normal
+
+enabled = true
+port = ssh
+logpath = %(sshd_log)s
+backend = systemd
+findtime = 600
+bantime = 180
+maxretry = 3
+action = %(action_mwl)s
